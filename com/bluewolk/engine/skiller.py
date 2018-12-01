@@ -5,6 +5,8 @@ Created on Nov 30, 2018
 '''
 import sys
 import logging
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineProfile
 from PyQt5.QtWidgets import QMainWindow, QSizePolicy, QVBoxLayout, QWidget, QApplication
 from PyQt5.QtCore import Qt, QUrl, QEvent, QEventLoop, QMarginsF
@@ -118,18 +120,6 @@ class SkillerWebPage2(QWebEnginePage):
         logging.debug('callable popup...')
         self.html = html_str
         Skiller.instance().set_popup_status(True)
-        
-    def download_requested(self, item):
-        logging.debug("Unsupported content %s", str(item.url()))
-        if 'checkDocumentType' in str(item.url()):
-            item.setPath('D:/BlankTemplate.pdf')
-        if 'generateReport' in str(item.url()):
-            item.setPath('D:/ReleaseNoteReport.xlsx')
-        logging.debug('downloading to %s', item.path())
-        item.accept()
-        Skiller.instance().set_pdf_status(True)
-        Skiller.instance().get_popup().close()
-        
 
 class SkillerWebPage(QWebEnginePage):
     def __init__(self, skillerWebView:QWebEngineView):
